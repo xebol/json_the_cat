@@ -1,23 +1,26 @@
 const request = require('request');
 
-const args = process.argv.slice(2);
-const catBreed = args[0];
-const APIendpointURL = `https://api.thecatapi.com/v1/breeds/search?q=${catBreed}`;
-
-
 const breedFetcher = (catBreed) => {
+  const APIendpointURL = `https://api.thecatapi.com/v1/breeds/search?q=${catBreed}`;
+
   request(APIendpointURL, (error, response, body) => {
     //handle error and if catBreed is not found
     if (error) {
       console.log(`Request failed ${error}`);
       return;
     }
+    
     const data = JSON.parse(body);
-
-    if (data.length === 0) {
+    const breed = data[0];
+    if (!breed) {
       console.log(`The breed ${catBreed} is not found`);
+      return;
     }
-    console.log(data[0].description);
+
+    console.log(breed.description);
   });
 };
-breedFetcher(catBreed);
+
+const args = process.argv.slice(2);
+
+breedFetcher(args[0]);
