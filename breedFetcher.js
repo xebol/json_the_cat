@@ -24,4 +24,4 @@ const fetchBreedDescription = (breedName, callback) => {
 
 module.exports = {
   fetchBreedDescription,
-}
+};
